@@ -5,7 +5,7 @@ import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
 import { Loader } from './Loader/Loader';
 
-export const App = () => {
+export const App2 = () => {
   return (
     <div>
       <h1>Phonеbook</h1>
