@@ -1,23 +1,24 @@
-import { nanoid } from "nanoid";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addContact, selectContactsItems} from "redux/contactListReduser";
+import { nanoid } from 'nanoid';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContactsItems } from 'redux/contactListReduser';
+import { addContact } from 'redux/operations';
 
 const ContactForm = () => {
-  const [name, setName] = useState("");
-  const [phone, setNumber] = useState("");
+  const [name, setName] = useState('');
+  const [phone, setNumber] = useState('');
   const contacts = useSelector(selectContactsItems);
   const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
 
     const existingContact = contacts.find(
-      (contact) => contact.name.toLowerCase() === name.toLowerCase()
+      contact => contact.name.toLowerCase() === name.toLowerCase()
     );
 
     if (existingContact) {
-      alert("Контакт с таким именем уже существует!");
+      alert('Контакт с таким именем уже существует!');
       return;
     }
 
@@ -29,9 +30,8 @@ const ContactForm = () => {
 
     dispatch(addContact(newContact));
 
-   
-    setName("");
-    setNumber("");
+    setName('');
+    setNumber('');
   };
 
   return (
@@ -39,7 +39,7 @@ const ContactForm = () => {
       <div>
         <h2>Name</h2>
         <input
-          onChange={(event) => setName(event.target.value)}
+          onChange={event => setName(event.target.value)}
           value={name}
           type="text"
           name="name"
@@ -51,7 +51,7 @@ const ContactForm = () => {
       <div>
         <h2>Phone number</h2>
         <input
-          onChange={(event) => setNumber(event.target.value)}
+          onChange={event => setNumber(event.target.value)}
           value={phone}
           type="tel"
           name="number"
