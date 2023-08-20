@@ -1,3 +1,4 @@
+import Filter from 'components/Filter/Filter';
 import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,16 +21,19 @@ const ContactList = () => {
   );
 
   return (
-    <ul>
-      {filteredContacts.map(contact => (
-        <li key={contact.id}>
-          {contact.name}: {contact.phone}
-          <button onClick={() => dispatch(deleteContact(contact.id))}>
-            Delete
-          </button>
-        </li>
-      ))}
-    </ul>
+    <div>
+      
+      <ul>
+        {filteredContacts.map(contact => (
+          <li key={contact.id}>
+            {contact.name}: {contact.phone}
+            <button onClick={() => dispatch(deleteContact(contact.id))}>
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

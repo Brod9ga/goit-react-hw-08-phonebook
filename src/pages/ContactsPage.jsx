@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 
 import Loader from 'components/Loader/Loader';
 import { selectAuthentificated } from 'redux/authReducer';
@@ -31,6 +30,8 @@ const Contacts = () => {
     dispatch(deleteContactThunk(contactId));
   };
 
+  const [filter, setFilter] = useState('');
+
   const handleSubmit = event => {
     event.preventDefault();
 
@@ -46,6 +47,11 @@ const Contacts = () => {
   };
 
   const showContacts = Array.isArray(contacts) && contacts.length > 0;
+
+  const handleFilterChange = event => {
+    setFilter(event.target.value);
+  };
+
   return (
     <ContactsSyled>
       <form onSubmit={handleSubmit}>
@@ -60,27 +66,40 @@ const Contacts = () => {
         </label>
         <br />
         <StyledSubmitBtn htmlType="submit">Add contact</StyledSubmitBtn>
+        <label>
+          <p>Filter:</p>
+          <input
+            name="contactFilter"
+            type="text"
+            value={filter}
+            onChange={handleFilterChange}
+          />
+        </label>
       </form>
 
       {isLoading && <Loader />}
-      {error && <p>Oops, some error occured... {error}</p>}
+      {error && <p>Oops, some error occurred... {error}</p>}
       <ul>
         {showContacts &&
-          contacts.map(contact => {
-            return (
-              <li key={contact.id}>
-                <h3>Name: {contact.name}</h3>
-                <p>Number: {contact.number}</p>
-                <button
-                  onClick={() => handleDeleteContact(contact.id)}
-                  type="button"
-                  aria-label="Delete contact"
-                >
-                  &times;
-                </button>
-              </li>
-            );
-          })}
+          contacts
+            .filter(contact => {
+              return contact.name.toLowerCase().includes(filter.toLowerCase());
+            })
+            .map(contact => {
+              return (
+                <li key={contact.id}>
+                  <h3>Name: {contact.name}</h3>
+                  <p>Number: {contact.number}</p>
+                  <button
+                    onClick={() => handleDeleteContact(contact.id)}
+                    type="button"
+                    aria-label="Delete contact"
+                  >
+                    &times;
+                  </button>
+                </li>
+              );
+            })}
       </ul>
     </ContactsSyled>
   );
